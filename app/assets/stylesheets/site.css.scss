@@ -1,0 +1,43 @@
+@import "compass/reset";
+@import "susy";
+@import "site/defaults";
+
+@import "compass/typography/vertical_rhythm";
+
+$base-font-size: 16px;
+$base-line-height: 24px;
+@include establish-baseline;
+
+$total-columns  : 7;
+$column-width   : 4em;
+$gutter-width   : 1em;
+$grid-padding   : $gutter-width;
+$break-columns: 12;
+$break: $break-columns;
+
+@mixin grid-background($cols){
+  $grid-color: #FBF7E6;
+  @include column-grid-background($cols, column(), gutter(), 0%, $grid-color);
+  @include background-origin(content-box);
+  @include background-clip(content-box);
+}
+
+.container{
+  @include container;
+
+  @include at-breakpoint($break){
+    @include set-container-width;
+    @include grid-background($break-columns);
+  }
+
+  @include grid-background($total-columns);
+}
+body.show-rhythm{ 
+  .container{ @include debug-vertical-alignment; }
+}
+
+@include at-breakpoint($break){
+  .banner{ @include prefix(2, $break-columns); }
+  .nav{ @include span-columns(2, $break-columns); }
+  .main{ @include span-columns(10 omega, $break-columns); }
+}
